@@ -1,16 +1,18 @@
 # Conversational RAG API
 
-A custom Retrieval-Augmented Generation (RAG) API built with FastAPI. The application supports document question answering, conversational memory, and an LLM-powered interview booking workflow.
+A custom Conversational Retrieval-Augmented Generation (RAG) API built with **FastAPI**, **Qdrant**, **Redis**, and **Groq**. The application supports document question answering, conversational memory, and an LLM-powered interview booking workflow.
+
+**GitHub Repository:** https://github.com/GautamThapa1/palmmind_task
 
 ---
 
 ## Features
 
 - Upload PDF documents
-- Fixed and Recursive chunking
+- Fixed and Recursive text chunking
 - SentenceTransformer embeddings
 - Qdrant vector database
-- Custom RAG pipeline (without LangChain RetrievalQA)
+- Custom RAG pipeline (without RetrievalQAChain)
 - Conversational memory using Redis
 - Query rewriting for follow-up questions
 - LLM-powered interview booking
@@ -30,6 +32,7 @@ A custom Retrieval-Augmented Generation (RAG) API built with FastAPI. The applic
 - Groq API
 - SentenceTransformers
 - Docker
+- uv
 
 ---
 
@@ -66,11 +69,13 @@ git clone https://github.com/GautamThapa1/palmmind_task.git
 cd palmmind_task
 ```
 
-### 2. Create a virtual environment
+### 2. Install dependencies
 
 ```bash
-python -m venv .venv
+uv sync
 ```
+
+### 3. Activate the virtual environment
 
 Linux/macOS
 
@@ -84,23 +89,25 @@ Windows
 .venv\Scripts\activate
 ```
 
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
 ## Environment Variables
 
-Copy `.env.example` to `.env`
+Copy the example environment file.
+
+Linux/macOS
 
 ```bash
 cp .env.example .env
 ```
 
-Update the following variable:
+Windows
+
+```bash
+copy .env.example .env
+```
+
+Update the Groq API key.
 
 ```env
 GROQ_API_KEY=your_groq_api_key
@@ -134,10 +141,10 @@ docker run -d \
 ## Run the API
 
 ```bash
-uvicorn app.main:app --reload
+uv run uvicorn app.main:app --reload
 ```
 
-Swagger UI:
+The API documentation will be available at:
 
 ```
 http://127.0.0.1:8000/docs
@@ -149,19 +156,15 @@ http://127.0.0.1:8000/docs
 
 ### Upload Document
 
-```
-POST /upload
-```
+**POST** `/upload`
 
-Uploads a PDF, extracts text, chunks it, generates embeddings, stores vectors in Qdrant, and saves document metadata to SQLite.
+Uploads a PDF document, extracts the text, chunks it, generates embeddings, stores vectors in Qdrant, and saves document metadata in SQLite.
 
 ---
 
 ### Chat
 
-```
-POST /chat
-```
+**POST** `/chat`
 
 Supports:
 
@@ -198,6 +201,9 @@ Qdrant
 User Question
       │
       ▼
+Conversation Memory
+      │
+      ▼
 Query Rewriting
       │
       ▼
@@ -218,14 +224,15 @@ User
  ▼
 Intent Detection
  │
- ├───────────── RAG
+ ├──────────────► RAG
  │
- └───────────── Booking
-                   │
-                   ▼
-        Collect user information
-                   │
-                   ▼
+ └──────────────► Booking
+                     │
+                     ▼
+         Collect name, email,
+          date and time
+                     │
+                     ▼
           Store booking in SQLite
 ```
 
@@ -235,8 +242,8 @@ Intent Detection
 
 | Component | Purpose |
 |----------|---------|
-| SQLite | Document metadata & interview bookings |
+| SQLite | Document metadata and interview bookings |
 | Qdrant | Vector embeddings |
-| Redis | Conversation memory & booking state |
+| Redis | Conversation history and booking state |
 
 
