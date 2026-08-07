@@ -2,8 +2,6 @@
 
 A custom Retrieval-Augmented Generation (RAG) API built with FastAPI. The application supports document question answering, conversational memory, and an LLM-powered interview booking workflow.
 
-**Repository:** :contentReference[oaicite:0]{index=0}
-
 ---
 
 ## Features
