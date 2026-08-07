@@ -1,4 +1,4 @@
-from uuid import uuid4
+import hashlib
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
@@ -23,8 +23,9 @@ def store_embeddings(chunks, embeddings, filename):
 
     points = []
     for chunk, embedding in zip(chunks, embeddings):
+        point_id = hashlib.sha256(f"{filename}:{chunk}".encode("utf-8")).hexdigest()
         points.append(
-            PointStruct(id=str(uuid4()), vector=embedding, payload={"text": chunk, "filename": filename},)
+            PointStruct(id=point_id, vector=embedding, payload={"text": chunk, "filename": filename},)
         )
 
     client.upsert(

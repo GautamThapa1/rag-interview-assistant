@@ -61,5 +61,4 @@ def recursive_chunk(text: str, chunk_size: int, overlap: int):
 
 
 def generate_embeddings(chunks: list[str]) -> list[list[float]]:
-    return model.encode(chunks).tolist()
-    
+    return model.encode(chunks, normalize_embeddings=True).tolist()
