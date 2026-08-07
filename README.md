@@ -2,7 +2,7 @@
 
 A custom Conversational Retrieval-Augmented Generation (RAG) API built with **FastAPI**, **Qdrant**, **Redis**, and **Groq**. The application supports document question answering, conversational memory, and an LLM-powered interview booking workflow.
 
-**GitHub Repository:** https://github.com/GautamThapa1/palmmind_task
+**GitHub Repository:** https://github.com/GautamThapa1/rag-interview-assistant
 
 ---
 
