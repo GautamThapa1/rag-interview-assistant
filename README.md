@@ -65,7 +65,7 @@ app/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/GautamThapa1/palmmind_task.git
+git clone https://github.com/GautamThapa1/rag-interview-assistant.git
 cd palmmind_task
 ```
 
